@@ -1,5 +1,3 @@
-//Coding by: RodrigoMSR & ipsLuan
-
 CMD:ativarcash(playerid, params[])
 {
     if(sscanf(params, "s[256]", params)) return SendClientMessage(playerid, 0xFF0000FF, "Uso correto: /ativarcash [Código do PagSeguro]");
@@ -9,9 +7,9 @@ CMD:ativarcash(playerid, params[])
 
 stock CheckPgCode(playerid, code[])
 {
-    if(strfind(code, " ", true) != -1) return ShowPlayerDialog(playerid, Dialog_PgSeguro, DIALOG_STYLE_MSGBOX, "Brasil Perfect City - PagSeguro", "Foi encontrado erros durante o processamento do código.\nVerifique o código digitado.", "Fechar", "");
+    if(strfind(code, " ", true) != -1) return ShowPlayerDialog(playerid, Dialog_PgSeguro, DIALOG_STYLE_MSGBOX, "PagSeguro", "Foi encontrado erros durante o processamento do código.\nVerifique o código digitado.", "Fechar", "");
     new str[256];
-    format(str, sizeof(str), "www.brasilperfectcity.com.br/pagseguro/pagseguro.php?code=%s", code);
+    format(str, sizeof(str), "www.site.com.br/pagseguro/pagseguro.php?code=%s", code);
     HTTP(playerid, HTTP_GET, str, "", "HTTP_PgResponse");
     SendClientMessage(playerid, -1, "Estamos procurando o seu pagamento em nosso banco de dados...");
     return 1;
@@ -42,7 +40,7 @@ public HTTP_PgResponse(playerid, response_code, data[])
         valor = floatstr(pg_split(data, "<grossAmount>", "</grossAmount>"));
         if(isnull(nome) || valor == 0 || statusPg == 0)
         {
-            ShowPlayerDialog(playerid, Dialog_PgSeguro, DIALOG_STYLE_MSGBOX, "Brasil Perfect City - PagSeguro", "Houve um erro durante a consulta do seu código.\n\nFaça novamente a ativação do seu código.\n\nCaso não consiga, entre em contato com um de nossos administradores.", "Fechar", "");
+            ShowPlayerDialog(playerid, Dialog_PgSeguro, DIALOG_STYLE_MSGBOX, "PagSeguro", "Houve um erro durante a consulta do seu código.\n\nFaça novamente a ativação do seu código.\n\nCaso não consiga, entre em contato com um de nossos administradores.", "Fechar", "");
             return 1;
         }
         new statusStr[40];
@@ -129,19 +127,19 @@ public HTTP_PgResponse(playerid, response_code, data[])
             }
             else
             {
-                ShowPlayerDialog(playerid, Dialog_PgSeguro, DIALOG_STYLE_MSGBOX, "Brasil Perfect City - PagSeguro", "{FFFFFF}ERRO: O código digitado já foi resgatado.\n\nCaso não tenha sido você, entre em contato com um de nossos administradores URGENTE!", "Fechar", "");
+                ShowPlayerDialog(playerid, Dialog_PgSeguro, DIALOG_STYLE_MSGBOX, "PagSeguro", "{FFFFFF}ERRO: O código digitado já foi resgatado.\n\nCaso não tenha sido você, entre em contato com um de nossos administradores URGENTE!", "Fechar", "");
                 return 1;
             }
         }
         new mensagem[256];
         format(mensagem, sizeof(mensagem), "AdmCmd: O jogador %s resgatou %s pelo /ativarcash.", PlayerGetName(playerid), desc);
         SendAdminMessage(COLOR_LIGHTRED, mensagem);
-        ShowPlayerDialog(playerid, Dialog_PgSeguro, DIALOG_STYLE_MSGBOX, "Brasil Perfect City - PagSeguro", str, "Fechar", "");
+        ShowPlayerDialog(playerid, Dialog_PgSeguro, DIALOG_STYLE_MSGBOX, "PagSeguro", str, "Fechar", "");
     }
     else
     {
         format(str, sizeof(str), "{FFFFFF}Ocorreu um erro na consulta de transação.\n\nCódigo do erro: (%d).", response_code);
-        ShowPlayerDialog(playerid, Dialog_PgSeguro, DIALOG_STYLE_MSGBOX, "Brasil Perfect City - PagSeguro", str, "Fechar", "");
+        ShowPlayerDialog(playerid, Dialog_PgSeguro, DIALOG_STYLE_MSGBOX, "PagSeguro", str, "Fechar", "");
     }
     return 1;
 }
