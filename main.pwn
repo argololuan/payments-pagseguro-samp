@@ -1,3 +1,4 @@
+//Comandos
 CMD:ativarcash(playerid, params[])
 {
     if(sscanf(params, "s[256]", params)) return SendClientMessage(playerid, 0xFF0000FF, "Uso correto: /ativarcash [Código do PagSeguro]");
